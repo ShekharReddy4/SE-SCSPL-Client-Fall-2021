@@ -10,10 +10,19 @@
         <input type="text" class="form-control-plaintext" id="itemIDBox" placeholder="12345">
       </div>
     </form>
-	<button onclick="Test()" >API Call Attempt</button>
+	<button onclick="checkBlank()" >API Call Attempt</button>
+	<button onclick="clearlastItem()" >Delete Last Item</button>
 	<table>
 		<tr>
 			<th rowspan="2" id="result"></th>
+		</tr>
+	</table>
+	<table width="35%" border= "1"; id="resultList">
+		<tr>
+			<td>Item ID</td>
+			<td>Item Name</td>
+			<td>Item Stock</td>
+			<td>Item Discount</td>
 		</tr>
 	</table>
 
