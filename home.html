@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<body>
+<script>
+    var xhr = new XMLHttpRequest();
+    xhr.withCredentials = true;
+    
+    xhr.addEventListener("readystatechange", function() {
+      if(this.readyState === 4) {
+        console.log(this.responseText);
+      }
+    });
+    
+    xhr.open("GET", "https://localhost:44343/weatherforecast");
+    
+    xhr.send();</script>
+<h1>My First Heading</h1>
+
+<p>My first paragraph.</p>
+
+</body>
+</html>
+

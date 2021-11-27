@@ -1,0 +1,44 @@
+{
+  "name": "bootstrap-npm-starter",
+  "version": "1.4.0",
+  "private": true,
+  "description": "Demo project for building a Bootstrap powered site via npm.",
+  "author": "mdo",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/twbs/bootstrap-npm-starter.git"
+  },
+  "bugs": {
+    "url": "https://github.com/twbs/bootstrap-npm-starter/issues"
+  },
+  "homepage": "https://github.com/twbs/bootstrap-npm-starter#readme",
+  "scripts": {
+    "build": "npm run css",
+    "css-compile": "node-sass --include-path node_modules --output-style compressed --source-map true --source-map-contents true --precision 6 scss -o assets/css/",
+    "css-lint": "stylelint scss/",
+    "css-prefix": "postcss --replace assets/css/starter.css --use autoprefixer --map",
+    "css-purge": "purgecss --keyframes --css assets/css/starter.css --content index.html \"node_modules/bootstrap/js/dist/{util,modal}.js\" --output assets/css/",
+    "css": "npm-run-all css-compile css-prefix",
+    "server": "serve --listen 3000",
+    "start": "npm-run-all --parallel watch server",
+    "watch": "nodemon -e html,scss -x \"npm run css\"",
+    "test": "npm run css-lint && npm run css"
+  },
+  "keywords": [
+    "bootstrap",
+    "sass",
+    "css",
+    "javascript",
+    "starter",
+    "template"
+  ],
+  "dependencies": {
+     
+  },
+  "devDependencies": {
+     
+    "nodemon": "^2.0.7",
+    "serve": "^11.3.2"
+  }
+}
