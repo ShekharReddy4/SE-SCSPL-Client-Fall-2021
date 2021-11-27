@@ -1,3 +1,6 @@
+$(document).ready(function(){
+	$('.header').height($(window).height());
+})
 
 var xhr = new XMLHttpRequest();
 xhr.withCredentials = true;
@@ -8,7 +11,7 @@ xhr.addEventListener("readystatechange", function() {
   }
 });
 
-xhr.open("GET", "https://localhost:44343/weatherforecast");
+xhr.open("GET", "https://localhost:44343/api/item");
 
 xhr.send();
 
