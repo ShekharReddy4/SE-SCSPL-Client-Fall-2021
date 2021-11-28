@@ -16,7 +16,7 @@ document.getElementById("result").innerHTML = "Item ID: " + item.ID + "<br>Item 
   }
 });
 
-xhr.open("GET", "https://localhost:44343/api/Item/" + enterID);
+xhr.open("GET", "https://localhost:5001/api/Item/" + enterID);
 xhr.send();
 }
 
