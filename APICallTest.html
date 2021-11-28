@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <script src = "scripts/test.js">  </script>
+    <h1>SuperMarket System</h1>
+
+    <form class="form-inline">
+      <div class="form-group mb-2">
+        <label for="itemIDBox" class="sr-only">Item ID</label>
+        <input type="text" class="form-control-plaintext" id="itemIDBox" placeholder="12345">
+      </div>
+    </form>
+	<button onclick="checkBlank()" >Add Item</button>
+	<button onclick="clearlastItem()" >Delete Last Item</button>
+	<table>
+		<tr>
+			<th rowspan="2" id="result"></th>
+		</tr>
+	</table>
+	<table width="35%" border= "1"; id="resultList">
+		<tr>
+			<td>Item ID</td>
+			<td>Item Name</td>
+			<td>Item Stock</td>
+			<td>Item Discount</td>
+			<td>Item Price</td>
+		</tr>
+		<tr>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td>Total Price</td>
+			<td id ="totalPrice">0.00</td>
+		</tr>
+	</table>
+	</br>
+	<button onclick="buy()" >Purchase</button></br>
+	<table>
+		<tr>
+			<th rowspan="2" id="comment"></th>
+		</tr>
+	</table>
+	<form>
+      <div>
+		</br>
+        <label for="cardnum" class="sr-only">Card Number:</label>
+        <input type="text" class="form-control-plaintext" id="cardnum" placeholder="123456789"></br>
+        <label for="cardName" class="sr-only">Card Name:</label>
+        <input type="text" class="form-control-plaintext" id="cardName" placeholder=""></br>
+        <label for="cardCvv" class="sr-only">Cvv:</label>
+        <input type="text" class="form-control-plaintext" id="cardCvv" placeholder=""></br>
+        <label for="cardExp" class="sr-only">Expiration:</label>
+        <input type="text" class="form-control-plaintext" id="cardExp" placeholder=""></br>
+      </div>
+    </form>
+  </body>
+</html>
+
+
