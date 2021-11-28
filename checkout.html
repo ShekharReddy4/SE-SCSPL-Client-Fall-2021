@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <script src = "scripts/newtest.js">  </script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core@4.7.4/dist/ionic/ionic.esm.js"></script>
+    <script nomodule src="https://cdn.jsdelivr.net/npm/@ionic/core@4.7.4/dist/ionic/ionic.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ionic/core@4.7.4/css/ionic.bundle.css"/>
+    <style>
+        table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 50%;
+}
+
+td, th {
+  border: 2px solid #0f0b0b;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #FFFFFF;
+  color:#0f0b0b
+}
+    
+      .box1 {
+        background-color:rgb(51, 98, 104);
+      width: 200px;
+      height:100px;
+      border: 15px ;
+      padding: 20px;
+     
+    }
+    a:link, a:visited {
+
+color: black;
+padding: 14px 25px;
+text-align: center;
+text-decoration: none;
+display: inline-block;
+}
+
+
+
+    </style>
+  </head>
+  <body>
+    <ion-app>
+        
+        <ion-toolbar color="secondary">
+        <ion-title align="center" position="floating">Super Market</ion-title>      
+    </ion-toolbar>
+<ion-content color="dark" >
+    <ion-grid>
+        <ion-row>
+            <ion-col size="3">
+                <ion-card>
+                    <ion-card-header>
+                        Item Deatils
+                    </ion-card-header>
+                    <ion-card-content>
+                        <ion-item>
+                            <ion-label position="floating">Item ID</ion-label>
+                            <ion-input type="text" id="itemIDBox"></ion-input>
+                        </ion-item>
+                        <ion-button id='addItem' onclick="checkBlank()" >Add Item</ion-button>
+
+                    </ion-card-content>
+                </ion-card>
+                <p id='result'></p>
+
+            </ion-col>
+            <ion-col size='5'>
+                <table id="resultList">
+                    <tr>
+                        <td>Item ID</td>
+                        <td>Item Name</td>
+                        <td>Item Stock</td>
+                        <td>Item Discount</td>
+                        <td>Item Price</td>
+                        <td>Scale</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>Sub Total</td>
+                        <td id ="subTotal">0.00</td>
+                    </tr>
+                </table>
+
+                <ion-button onclick='totalButton()'>Total</ion-button>
+                <p id='tot'></p>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col>
+            <ion-card color='dark'>
+                <ion-crad-header>
+                    Payment Type
+                </ion-crad-header>
+                <ion-card-content>
+                    <ion-item color='dark'>
+                        <ion-button onclick='cardFun()'>Debit/Credit Crad</ion-button>
+                    </ion-item>
+                    <ion-item  color='dark'>
+                        <ion-button onclick='cashFun()'>Cash</ion-button>
+                    </ion-item>
+   
+                    <ion-item  color='dark'>
+                        <ion-button onclick='checkFun()'>Check</ion-button>
+                    </ion-item>
+
+                </ion-card-content>
+            </ion-card>
+
+            </ion-col>
+            <ion-col >
+                <p id='demo'></p>
+            </ion-col>
+            
+        </ion-row>
+    </ion-grid>
+
+
+
+    </ion-content>
+       
+    </ion-app>
+<script>
+    function cardFun()
+{
+    clear()
+    var demo=document.getElementById('demo');
+    const cardNumber=document.createElement('ion-input');
+    const CVV=document.createElement('ion-input');
+    const title=document.createElement('ion-item');
+    const month=document.createElement('ion-input');
+    const year=document.createElement('ion-input');
+    const purchase=document.createElement('ion-button')
+
+    
+    
+    //cardNumber.setAttribute("palceholder","Crad Number");
+
+   cardNumber.setAttribute('placeholder','Card Number');
+    CVV.setAttribute('placeholder','CVV')
+
+    month.setAttribute('type','number')
+    year.setAttribute('type','number')
+    year.setAttribute('placeholder','yy')
+    month.setAttribute('placeholder','mm')
+    purchase.textContent='Purchase'
+
+
+
+    
+    title.textContent='Expiry Date'
+
+    
+    demo.appendChild(cardNumber)
+    demo.appendChild(CVV)
+    demo.appendChild(title)
+    demo.appendChild(month)
+    demo.appendChild(year)
+    demo.appendChild(purchase)
+
+  
+}
+function cashFun()
+{
+    clear()
+    var demo=document.getElementById('demo');
+    
+    const amount=document.createElement('ion-input');
+   
+   amount.setAttribute('placeholder','Amount');
+   const purchase=document.createElement('ion-button')
+    purchase.textContent='Purchase'
+
+
+
+    
+ 
+    demo.appendChild(amount)
+    demo.appendChild(purchase)
+ 
+  
+}
+function checkFun()
+{
+    clear()
+    var demo=document.getElementById('demo');
+    const checkNumber=document.createElement('ion-input');
+
+    const purchase=document.createElement('ion-button')
+
+    
+    const year=document.createElement('ion-input');
+    //cardNumber.setAttribute("palceholder","Crad Number");
+
+   checkNumber.setAttribute('placeholder','CheckNumber');
+
+    purchase.textContent='Purchase'
+
+
+
+    
+
+    demo.appendChild(checkNumber)
+    demo.appendChild(purchase)
+
+  
+}
+function clear()
+{
+    var demo=document.getElementById('demo');
+    demo.innerHTML=" ";
+}
+
+</script>
+    
+  </body>
+</html>
