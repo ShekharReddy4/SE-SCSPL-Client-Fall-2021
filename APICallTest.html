@@ -10,8 +10,8 @@
         <input type="text" class="form-control-plaintext" id="itemIDBox" placeholder="12345">
       </div>
     </form>
-	<button onclick="checkBlank()" >Add Item</button>
-	<button onclick="clearlastItem()" >Delete Last Item</button>
+	<button id="AddItemButton" onclick="checkBlank()" >Add Item</button>
+	<button id="ClearItemButton" onclick="clearlastItem()" >Delete Last Item</button>
 	<table>
 		<tr>
 			<th rowspan="2" id="result"></th>
@@ -29,12 +29,27 @@
 			<td></td>
 			<td></td>
 			<td></td>
+			<td>Sub Total</td>
+			<td id ="SubTotal">0.00</td>
+		</tr>
+		<tr>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td>Taxes</td>
+			<td id ="Taxes">0.00</td>
+		</tr>
+		<tr>
+			<td></td>
+			<td></td>
+			<td></td>
 			<td>Total Price</td>
 			<td id ="totalPrice">0.00</td>
 		</tr>
 	</table>
 	</br>
-	<button onclick="buy()" >Purchase</button></br>
+	<button id="PaymentButton" onclick="buy()" >Confirm Payment</button></br>
+	<button id="TotalButton" disabled onclick="totalButton()" >TOTAL</button>
 	<table>
 		<tr>
 			<th rowspan="2" id="comment"></th>
@@ -53,6 +68,7 @@
         <input type="text" class="form-control-plaintext" id="cardExp" placeholder=""></br>
       </div>
     </form>
+	<button id="newOrderButton" onclick="newOrder()" >New Order</button>
   </body>
 </html>
 

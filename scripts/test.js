@@ -38,7 +38,7 @@ function additem(item)
 		console.log("ABC"); //sync test, debug only
 		var table = document.getElementById("resultList");
 		var rowTotal = table.rows.length;
-		var row = table.insertRow(rowTotal-1);
+		var row = table.insertRow(rowTotal-3);
 		var cell0 = row.insertCell(0);
 		var cell1 = row.insertCell(1);
 		var cell2 = row.insertCell(2);
@@ -53,20 +53,25 @@ function additem(item)
 }
 function totalCost(){
 	document.getElementById("totalPrice").innerHTML = 0.00
+	document.getElementById("SubTotal").innerHTML = 0.00
+	document.getElementById("Taxes").innerHTML = 0.00
 	var table = document.getElementById("resultList");
 	//Sum values of item price
 	let total = Array.from(table.rows).slice(1).reduce((total,row) => {
     return total + parseFloat(row.cells[4].innerHTML);
   }, 0);
-	document.getElementById("totalPrice").innerHTML = "$" + total.toFixed(2);
+	document.getElementById("SubTotal").innerHTML = total.toFixed(2);
+	document.getElementById("Taxes").innerHTML = total.toFixed(2) * 0.08;
+	var finalTotal = parseFloat(total.toFixed(2)) + parseFloat((total.toFixed(2) * parseFloat('0.08')))
+	document.getElementById("totalPrice").innerHTML = "$" + finalTotal.toFixed(2);
 }
 function clearlastItem()
 {
 	var table = document.getElementById("resultList");
 	var rowTotal = table.rows.length;
-	if(rowTotal > 2)
+	if(rowTotal > 4)
 	{
-		table.deleteRow(rowTotal - 2);
+		table.deleteRow(rowTotal - 4);
 		totalCost();
 	}
 }
@@ -77,22 +82,37 @@ function buy(){
 	var cardExp = document.getElementById("cardExp");
 	var table = document.getElementById("resultList");
 	//confirm if credit card is correct API query here
-	if(true && table.rows.length > 2){
+	if(true && table.rows.length > 4){
 		//card info is correct
-		
-		while (table.rows.length > 2) {
-		table.deleteRow(1);
-		}
-		totalCost();
-		document.getElementById("comment").innerHTML = "Thank you for your purchase!";
+		document.getElementById("TotalButton").disabled = false;
 	}else{
 		//card info is wrong or no items
-		if(table.rows.length <= 2){
+		if(table.rows.length <= 4){
 			document.getElementById("comment").innerHTML = "You have no items in your basket.";
 		}else{
 		document.getElementById("comment").innerHTML = "Please enter valid credit card information.";
 		}
 	}
 	
+}
+function totalButton(){
+		document.getElementById("TotalButton").disabled = true;
+		document.getElementById("PaymentButton").disabled = true;
+		document.getElementById("AddItemButton").disabled = true;
+		document.getElementById("ClearItemButton").disabled = true;
+		document.getElementById("comment").innerHTML = "Thank you for your purchase!";
+}
+function newOrder(){
+	var table = document.getElementById("resultList");
+	while (table.rows.length > 4) {
+		table.deleteRow(1);
+		}
+	totalCost();
+	document.getElementById("comment").innerHTML = "Welcome, please enter your items.";
+	document.getElementById("result").innerHTML = "";
+	document.getElementById("TotalButton").disabled = true;
+	document.getElementById("PaymentButton").disabled = false;
+	document.getElementById("AddItemButton").disabled = false;
+	document.getElementById("ClearItemButton").disabled = false;
 }
 
