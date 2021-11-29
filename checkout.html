@@ -4,6 +4,8 @@
     <meta charset="utf-8">
     <title></title>
     <script src = "scripts/newtest.js">  </script>
+
+<script src="https://code.jquery.com/jquery-latest.min.js"></script>
     <script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core@4.7.4/dist/ionic/ionic.esm.js"></script>
     <script nomodule src="https://cdn.jsdelivr.net/npm/@ionic/core@4.7.4/dist/ionic/ionic.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ionic/core@4.7.4/css/ionic.bundle.css"/>
@@ -42,6 +44,10 @@ text-decoration: none;
 display: inline-block;
 }
 
+ion-input{
+--background: #F00;
+}
+
 
 
     </style>
@@ -61,11 +67,11 @@ display: inline-block;
                         Item Deatils
                     </ion-card-header>
                     <ion-card-content>
-                        <ion-item>
+                        <ion-item color='secondary'>
                             <ion-label position="floating">Item ID</ion-label>
-                            <ion-input type="text" id="itemIDBox"></ion-input>
+                            <ion-input  type="text" id="itemIDBox"></ion-input>
                         </ion-item>
-                        <ion-button id='addItem' onclick="checkBlank()" >Add Item</ion-button>
+                        <ion-button color='medium'  id='addItem' onclick="checkBlank()" >Add Item</ion-button>
 
                     </ion-card-content>
                 </ion-card>
@@ -77,51 +83,56 @@ display: inline-block;
                     <tr>
                         <td>Item ID</td>
                         <td>Item Name</td>
-                        <td>Item Stock</td>
-                        <td>Item Discount</td>
                         <td>Item Price</td>
+                        <td>Price Discount</td>
+                        <td>Net Price</td>
+                        <td>Stock Count</td>
                         <td>Scale</td>
+                        <td>Weight</td>
                     </tr>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td>Sub Total</td>
-                        <td id ="subTotal">0.00</td>
+                    <tr >
+                    
+                        <td colspan='6' >Sub Total</td>
+                        <td  colspan='2' id ="subTotal">0.00</td>
                     </tr>
                 </table>
 
-                <ion-button onclick='totalButton()'>Total</ion-button>
+                <ion-button id='total'  color='medium' onclick='total()'>Total</ion-button>
+                <ion-button id='clear'  color='medium' onclick='c()'>Clear</ion-button>
                 <p id='tot'></p>
             </ion-col>
-        </ion-row>
-        <ion-row>
-            <ion-col>
-            <ion-card color='dark'>
-                <ion-crad-header>
-                    Payment Type
-                </ion-crad-header>
-                <ion-card-content>
-                    <ion-item color='dark'>
-                        <ion-button onclick='cardFun()'>Debit/Credit Crad</ion-button>
-                    </ion-item>
-                    <ion-item  color='dark'>
-                        <ion-button onclick='cashFun()'>Cash</ion-button>
-                    </ion-item>
-   
-                    <ion-item  color='dark'>
-                        <ion-button onclick='checkFun()'>Check</ion-button>
-                    </ion-item>
-
-                </ion-card-content>
-            </ion-card>
-
-            </ion-col>
-            <ion-col >
-                <p id='demo'></p>
-            </ion-col>
             
+           
         </ion-row>
+        <ion-row>|
+            <ion-col colspan='2'>
+                <ion-card color='dark'>
+                    <ion-crad-header>
+                        Payment Type
+                    </ion-crad-header>
+                    <ion-card-content>
+                        <ion-item color='dark'>
+                            <ion-button color='dark' onclick='cardFun()'>Debit/Credit Crad</ion-button>
+                        </ion-item>
+                        <ion-item  color='dark'>
+                            <ion-button  color='dark'   onclick='cashFun()'>Cash</ion-button>
+                        </ion-item>
+       
+                        <ion-item  color='dark'>
+                            <ion-button  color='dark'  onclick='checkFun()'>Check</ion-button>
+                        </ion-item>
+    
+                    </ion-card-content>
+                </ion-card>
+    
+                </ion-col>
+                <ion-col colspan='5'>
+                <p id='demo'></p>
+                </ion-col>
+                
+
+        </ion-row>
+     
     </ion-grid>
 
 
@@ -136,16 +147,18 @@ display: inline-block;
     var demo=document.getElementById('demo');
     const cardNumber=document.createElement('ion-input');
     const CVV=document.createElement('ion-input');
+    const cardHolderName=document.createElement('ion-input');
     const title=document.createElement('ion-item');
     const month=document.createElement('ion-input');
     const year=document.createElement('ion-input');
     const purchase=document.createElement('ion-button')
 
     
-    
-    //cardNumber.setAttribute("palceholder","Crad Number");
+
+
 
    cardNumber.setAttribute('placeholder','Card Number');
+   cardHolderName.setAttribute('placeHolder','Card Holder Name')
     CVV.setAttribute('placeholder','CVV')
 
     month.setAttribute('type','number')
@@ -153,6 +166,12 @@ display: inline-block;
     year.setAttribute('placeholder','yy')
     month.setAttribute('placeholder','mm')
     purchase.textContent='Purchase'
+    purchase.setAttribute('onclick','pay1()')
+    cardNumber.setAttribute('id','cN')
+    cardHolderName.setAttribute('id','cHN')
+    CVV.setAttribute('id','cvv')
+    month.setAttribute('id','mm')
+    year.setAttribute('id','yy')
 
 
 
@@ -162,10 +181,12 @@ display: inline-block;
     
     demo.appendChild(cardNumber)
     demo.appendChild(CVV)
+    demo.appendChild(cardHolderName)
     demo.appendChild(title)
     demo.appendChild(month)
     demo.appendChild(year)
     demo.appendChild(purchase)
+    presentAlert3();
 
   
 }
@@ -179,6 +200,8 @@ function cashFun()
    amount.setAttribute('placeholder','Amount');
    const purchase=document.createElement('ion-button')
     purchase.textContent='Purchase'
+    purchase.setAttribute('onclick','pay2()')
+    amount.setAttribute('id','amt')
 
 
 
@@ -192,25 +215,22 @@ function cashFun()
 function checkFun()
 {
     clear()
+    presentAlert4()
     var demo=document.getElementById('demo');
     const checkNumber=document.createElement('ion-input');
 
     const purchase=document.createElement('ion-button')
 
-    
-    const year=document.createElement('ion-input');
-    //cardNumber.setAttribute("palceholder","Crad Number");
-
    checkNumber.setAttribute('placeholder','CheckNumber');
 
     purchase.textContent='Purchase'
+    purchase.setAttribute('onclick','pay3()');
+    checkNumber.setAttribute('id','cKN');
 
-
-
-    
 
     demo.appendChild(checkNumber)
     demo.appendChild(purchase)
+    
 
   
 }
@@ -219,8 +239,204 @@ function clear()
     var demo=document.getElementById('demo');
     demo.innerHTML=" ";
 }
+function pay1()
+{
+    var cN=document.getElementById('cN').value
+    var cHN=document.getElementById('cHN').value
+    var cvv=document.getElementById('cvv').value
+    var mm=document.getElementById('mm').value
+    var yy=document.getElementById('yy').value
+    var date=""
+    date=date+yy+'/'+mm
+    if( cN.trim().length<=0||cHN.trim().length<=0||mm.trim().length<=0||yy.trim().length<=0|cvv.trim().length<=0)
+{
+   
+   presentAlert2();
+}
+else {
+    
+   
+    var callObj = {
+    "url": "https://localhost:5001/api/purchase",
+    "method": "POST",
+    "timeout": 0,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "data": JSON.stringify({
+      "Items": objs,
+      "cardDetailsArray": [
+          {
+            "card_number": cN,
+            "name_on_card": cHN,
+            "cvv": cvv,
+            "expiry":date 
+          }
+      ],
+      "checkidArray":null,
+      "iscash": false
+    }),
+  };
+  console.log(objs);
+  $.ajax(callObj).done(function (response) {
+    console.log(response);
+    if (response)
+  {
+      presentAlert6()
+  }
+  else
+  {
+     presentAlert7()
+  }
+  });
+
+}
+}
+
+function pay3()
+{
+    var cKN=document.getElementById('cKN').value
+  
+    var intckn = parseInt(cKN);
+    if( intckn == null)
+{
+   
+   presentAlert2();
+}
+else
+{
+
+    
+   
+    var callObj = {
+    "url": "https://localhost:5001/api/purchase",
+    "method": "POST",
+    "timeout": 0,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "data": JSON.stringify({
+      "Items": objs,
+      "cardDetailsArray": null
+     ,
+      "checkidArray":[intckn],
+      "iscash": false
+    }),
+  };
+  console.log(objs);
+  console.log(callObj);
+  $.ajax(callObj).done(function (response) {
+    console.log(response);
+    if (response)
+  {
+      presentAlert6()
+  }
+  else
+  {
+     presentAlert7()
+  }
+  });
+
+}
+}
+
+function pay2()
+{
+    var amt= document.getElementById('amt').value
+    
+    if( amt.trim().length<=0)
+{
+
+   
+   presentAlert2();
+}
+else
+{
+    
+   
+    var callObj = {
+    "url": "https://localhost:5001/api/purchase",
+    "method": "POST",
+    "timeout": 0,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "data": JSON.stringify({
+      "Items": objs,
+      "cardDetailsArray": null,
+        
+      "checkidArray":null,
+      "iscash": true
+    }),
+  };
+  console.log(objs);
+  $.ajax(callObj).done(function (response) {
+    console.log(response);
+    if (response)
+  {
+      presentAlert6()
+  }
+  else
+  {
+     presentAlert7()
+  }
+  });
+  
+ 
+}
+}
+function presentAlert2() {
+const alert = document.createElement('ion-alert');
+alert.header = 'Alert';
+alert.subHeader = 'Hey there!!';
+alert.message = 'Invalid Input';
+alert.buttons = ['OK'];
+
+document.body.appendChild(alert);
+return alert.present();
+}
+function presentAlert3() {
+const alert = document.createElement('ion-alert');
+alert.header = 'Alert';
+alert.subHeader = 'Hey there!!';
+alert.message = 'Card Reader is Activated';
+alert.buttons = ['OK'];
+
+document.body.appendChild(alert);
+return alert.present();
+}
+function presentAlert4() {
+const alert = document.createElement('ion-alert');
+alert.header = 'Alert';
+alert.subHeader = 'Hey there!!';
+alert.message = 'Check Reader is Activated';
+alert.buttons = ['OK'];
+
+document.body.appendChild(alert);
+return alert.present();
+}
+function presentAlert6() {
+const alert = document.createElement('ion-alert');
+alert.header = 'Alert';
+alert.subHeader = 'Hey there!!';
+alert.message = 'Purchase Succeddful';
+alert.buttons = ['OK'];
+
+document.body.appendChild(alert);
+return alert.present();
+}
+function presentAlert7() {
+const alert = document.createElement('ion-alert');
+alert.header = 'Alert';
+alert.subHeader = 'Hey there!!';
+alert.message = 'Purchase is not succeddful. Please enter valid card/check details ';
+alert.buttons = ['OK'];
+
+document.body.appendChild(alert);
+return alert.present();
+}
 
 </script>
-    
+
   </body>
 </html>

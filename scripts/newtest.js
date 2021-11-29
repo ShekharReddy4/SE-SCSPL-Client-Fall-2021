@@ -1,4 +1,5 @@
 objs=[]
+netPrices=[]
 async function queryAPI(enterID, callBackItem)
 {	
 var xhr = new XMLHttpRequest();
@@ -46,12 +47,17 @@ function additem(item)
 		var cell3 = row.insertCell(3);
 		var cell4 = row.insertCell(4);
         var cell5=row.insertCell(5)
+        var cell6=row.insertCell(6)
+        var cell7=row.insertCell(7)
+        price = parseFloat(item.Price) - parseFloat(item.Discount)
 		cell0.innerHTML = item.ID;
 		cell1.innerHTML = item.Name;
-		cell2.innerHTML = item.StockCount;
+		cell2.innerHTML = parseFloat(item.Price).toFixed(2); 
 		cell3.innerHTML = item.Discount;
-		cell4.innerHTML = parseFloat(item.Price).toFixed(2);
-        cell5.innerHTML=item.IsScalable?"<button id=\"r1id\">Scale</button>":"NA";
+		cell4.innerHTML = parseFloat(price).toFixed(2);
+        cell5.innerHTML = item.StockCount;
+        cell6.innerHTML=item.IsScalable?"<ion-button shape='round' onclick='scale()' color='medium'>Scale</ion-button>":"NA";
+        cell7.innerHTML="NA"
         obj=        {
             "ID": item.ID,
             "Name": item.Name,
@@ -60,6 +66,7 @@ function additem(item)
             "Price": item.Price,
             "IsScalable": item.IsScalable
           }
+          netPrices.push(price)
           console.log(obj)
           this.objs.push(obj)
           console.log(objs)
@@ -67,70 +74,31 @@ function additem(item)
 }   
 function totalCost(){
 	document.getElementById("subTotal").innerHTML = 0.00
-	var table = document.getElementById("resultList");
+	//var table = document.getElementById("resultList");
 	//Sum values of item price
-	let total = Array.from(table.rows).slice(1).reduce((total,row) => {
-    return total + parseFloat(row.cells[4].innerHTML);
-  }, 0);
-	document.getElementById("subTotal").innerHTML = "$" + total.toFixed(2);
+	//let total = Array.from(table.rows).slice(1).reduce((total,row) => {
+    //return total + (row.cells[5].innerHTML);
+    var total =0;
+    netPrices.forEach(element => {
+      
+        total = total + element;
+    });
+
+
+    document.getElementById("subTotal").innerHTML = "$" + total;
+
 }
-function clearlastItem()
-{
-	var table = document.getElementById("resultList");
-	var rowTotal = table.rows.length;
-	if(rowTotal > 4)
-	{
-		table.deleteRow(rowTotal - 4);
-		totalCost();
-	}
-}
-function buy(){
-	var cardNum = document.getElementById("cardnum");
-	var cardName = document.getElementById("cardName");
-	var cardCvv = document.getElementById("cardCvv");
-	var cardExp = document.getElementById("cardExp");
-	var table = document.getElementById("resultList");
-	//confirm if credit card is correct API query here
-	if(true && table.rows.length > 4){
-		//card info is correct
-		document.getElementById("TotalButton").disabled = false;
-	}else{
-		//card info is wrong or no items
-		if(table.rows.length <= 4){
-			document.getElementById("comment").innerHTML = "You have no items in your basket.";
-		}else{
-		document.getElementById("comment").innerHTML = "Please enter valid credit card information.";
-		}
-	}
-	
-}
-function totalButton(){
-    total();
-		document.getElementById("totalButton").disabled = true;
-		document.getElementById("addItem").disabled = true;
-	
-		
-}
-function newOrder(){
-	var table = document.getElementById("resultList");
-	while (table.rows.length > 4) {
-		table.deleteRow(1);
-		}
-	totalCost();
-	document.getElementById("comment").innerHTML = "Welcome, please enter your items.";
-	document.getElementById("result").innerHTML = "";
-	document.getElementById("TotalButton").disabled = true;
-	document.getElementById("PaymentButton").disabled = false;
-	document.getElementById("AddItemButton").disabled = false;
-	document.getElementById("ClearItemButton").disabled = false;
-}
+
+
+
+
 function total(){
-	document.getElementById("subTotal").innerHTML = 0.00
-	var table = document.getElementById("resultList");
-	//Sum values of item price
-	let t = Array.from(table.rows).slice(1).reduce((t,row) => {
-    return t + parseFloat(row.cells[4].innerHTML);
-  }, 0);
+    var t =0;
+    netPrices.forEach(element => {
+      
+        t = t + element;
+    });
+
 	tax=t*8/100;
 	t=t+tax;
 	var tot=document.getElementById('tot')
@@ -141,8 +109,75 @@ function total(){
 
 	tot.appendChild(taxx)
 	tot.appendChild(totall)
+    document.getElementById("addItem").disabled = true;
+    document.getElementById("total").disabled = true;
+    document.getElementById("clear").disabled = true;
+    
+    presentAlert5()
 
 }
+function scale()
+{
+    console.log('jii')
+
+presentAlert()
+
+
+}
+function presentAlert() {
+    var weight=window.prompt(" Weight in lbs: ")
+    console.log(weight);
+    l=netPrices.length
+    var table = document.getElementById("resultList");
+    var rowTotal = table.rows.length;
+    var discount=objs[l-1].Discount
+    var p=parseFloat(table.rows[rowTotal-2].cells.item(4).innerHTML) + discount
+
+    
+    var discount=objs[l-1].Discount
+    var price= (p*weight)-(weight*discount)
+    
+    netPrices[l-1]=price
+    
+    table.rows[rowTotal-2].cells.item(4).innerHTML=price
+    table.rows[rowTotal-2].cells.item(7).innerHTML=weight
+    
+ 
+
+
+    totalCost()
+
+}
+function c()
+{
+    console.log('clear');
+    var table = document.getElementById("resultList");
+	var rowTotal = table.rows.length;
+	if(rowTotal > 2)
+	{
+        console.log("ko")
+	
+        table.deleteRow(rowTotal - 2);
+        objs.pop()
+        netPrices.pop()
+		totalCost();
+	}
+    console.log('uhuhu');
+}
+function presentAlert5() {
+    const alert = document.createElement('ion-alert');
+    alert.header = 'Alert';
+    alert.subHeader = 'Hey there!!';
+    alert.message = 'Cash Till is open';
+    alert.buttons = ['OK'];
+    
+    document.body.appendChild(alert);
+    return alert.present();
+    }
+  
+  
+  
+    
 
 
 
